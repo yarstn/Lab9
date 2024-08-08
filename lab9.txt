@@ -1,0 +1,87 @@
+create database x;
+CREATE TABLE Users (
+    user_id INT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    pic_url VARCHAR(255),
+    bio VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE Posts (
+    post_id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    content VARCHAR(255) NOT NULL,
+    image_url VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+CREATE TABLE Comments (
+    comment_id INT PRIMARY KEY AUTO_INCREMENT,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES Posts(post_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+CREATE TABLE Likes (
+    like_id INT PRIMARY KEY AUTO_INCREMENT,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES Posts(post_id),
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);
+#id outo increment
+INSERT INTO Users (username, email, password, pic_url, bio) VALUES
+('yarstn naj', 'yarstn@yarstn.com', 'hash1', '/images/test.jpg', 'Loves to travel and explore new places.'),
+('yara alfawaz', 'fawaz.yara@fawaz.com', 'hash2', '/images/test.jpg', 'nothing matters'),
+('najd nas', 'najd@google.com', 'hash3', '/images/test.jpg', 'live ur life'),
+('nasser', 'nasser@julay.com', 'hash4', '/images/test.jpg', 'start now dont stop'),
+('Mofawez', 'black@mofawez.com', 'hash5', '/images/test.jpg', 'Life is better with a freind by your side.');
+
+select * from users;
+
+insert into posts values ('1','1','i have nothing to do today any company to resturant?','/images/hiking.jpg', NOW());
+
+INSERT INTO Posts (user_id, content, image_url) VALUES
+(2, 'Just finished jym day', 'gym.jpg'),
+(3, 'yummy!!', 'images/food.jpg'),
+(4, 'Completed another project successfully!', 'images/project.jpg'),
+(5, 'Enjoying the park with my cat.', '/images/park.jpg');
+
+DELETE FROM Posts WHERE post_id = 3;
+
+INSERT INTO Likes (post_id, user_id) VALUES
+(1, 2), 
+(2, 3),
+(1, 4),
+(4, 5),
+(5, 1);
+
+delete from likes where user_id=3;
+
+INSERT INTO Comments (post_id, user_id, content)VALUES
+(1, 2, 'Great photo! Looks like more fun '),
+(2, 3, 'I love that  too! have fun '),
+(1, 4, 'Where is this place? It looks beautiful.'),
+(4, 5, 'Congrats on completing the project! Well done!'),
+(5, 1, 'Your cat is adorable! Enjoy');
+
+UPDATE Users SET username = 'yarstn56' WHERE user_id = 1;
+
+delete from comments where user_id=5;
+
+delete from likes where user_id=5;
+
+delete from posts where user_id=5;
+
+delete from users where user_id=5;
+
+
+
+
+
+
+
